@@ -14,8 +14,6 @@ services:
       - APP_ENV=local
       - APP_DEBUG=true
       - APP_KEY=YourSecretKeyHere
-    networks:
-      - laravel_network
     depends_on:
       - db
 
@@ -29,16 +27,14 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_RANDOM_ROOT_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "${DB_EXTERNAL_PORT}:${DB_INTERNAL_PORT}"
+      - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
-    networks:
-      - laravel_network
 
 networks:
   laravel_network:
     external: true
-    name: bank-api_laravel_network
+    name: book-api_laravel_network
 
 volumes:
   db_data:
