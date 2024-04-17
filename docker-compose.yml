@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  app:
+    container_name: book-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www/html
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - APP_KEY=YourSecretKeyHere
+    networks:
+      - laravel_network
+    depends_on:
+      - db
+
+  db:
+    container_name: ${DB_HOST}
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_RANDOM_ROOT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_EXTERNAL_PORT}:${DB_INTERNAL_PORT}"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - laravel_network
+
+networks:
+  laravel_network:
+    external: true
+    name: bank-api_laravel_network
+
+volumes:
+  db_data:
