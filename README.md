@@ -5,5 +5,8 @@
 
 All you need to start this project is to run the following commands:
 
-`docker-compose up -d`
+`docker-compose up -d`  <br>
+
+
+
 `docker exec -it book-api php artisan migrate`
